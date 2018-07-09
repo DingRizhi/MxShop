@@ -144,6 +144,7 @@ class UserWidgetAdmin(object):
         super(UserWidgetAdmin, self).delete_models(queryset)
 
 
+
 site.register(UserWidget, UserWidgetAdmin)
 
 

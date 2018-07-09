@@ -3,7 +3,7 @@ import functools
 import datetime
 import decimal
 from functools import update_wrapper
-from inspect import getargspec
+from inspect import getfullargspec
 
 from django import forms
 from django.apps import apps
@@ -50,7 +50,7 @@ def filter_chain(filters, token, func, *args, **kwargs):
     else:
         def _inner_method():
             fm = filters[token]
-            fargs = getargspec(fm)[0]
+            fargs = getfullargspec(fm)[0]
             if len(fargs) == 1:
                 # Only self arg
                 result = func()
@@ -526,11 +526,10 @@ class ModelAdminView(CommAdminView):
         Get model object instance by object_id, used for change admin view
         """
         # first get base admin view property queryset, return default model queryset
-        queryset = self.queryset()
-        model = queryset.model
+        model = self.model
         try:
             object_id = model._meta.pk.to_python(object_id)
-            return queryset.get(pk=object_id)
+            return model.objects.get(pk=object_id)
         except (model.DoesNotExist, ValidationError):
             return None
 
