@@ -20,10 +20,24 @@ import  xadmin
 from MxShop.settings import MEDIA_ROOT
 from django.views.static import serve
 from django.urls import include
+from rest_framework.documentation import include_docs_urls
+
+from goods.views import GoodsListView
+
+from rest_framework.routers import DefaultRouter
+router = DefaultRouter()
+
+# 配置goods的url
+router.register('goods', GoodsListView)
+
+
 urlpatterns = [
+    path('', include(router.urls)),
     path('xadmin/', xadmin.site.urls),
     # media文件处理
     re_path('media/(?P<path>.*)$', serve, {'document_root': MEDIA_ROOT}),
     # 富文本相关url
     path('ueditor/', include('DjangoUeditor.urls')),
+    path('api-auth/', include('rest_framework.urls')),
+    path('docs/', include_docs_urls(title="慕雪生鲜")),
 ]
