@@ -2,18 +2,24 @@
 __author__ = 'imbaqian'
 __date__ = '2018/7/12 22:58'
 
-from django_filters import rest_framework as filter
+
+from django.db.models import Q
+import django_filters
 from .models import Goods
 
 
-class GoodsFilter(filter.FilterSet):
+class GoodsFilter(django_filters.rest_framework.FilterSet):
     """
     商品的过滤类
     """
-    price_min = filter.NumberFilter(name="shop_price", lookup_expr="gte")
-    price_max = filter.NumberFilter(name="shop_price", lookup_expr="lte")
-    name = filter.CharFilter(name="name", lookup_expr="icontains")
+    pricemin = django_filters.NumberFilter(name="shop_price", lookup_expr="gte")
+    pricemax = django_filters.NumberFilter(name="shop_price", lookup_expr="lte")
+    top_category = django_filters.NumberFilter(method='top_category_filter')
 
+    def top_category_filter(self, queryset, name, value):
+        return queryset.filter(Q(category_id=value)|
+                                Q(category__parent_category_id=value)|
+                                Q(category__parent_category__parent_category_id=value))
     class  Meta:
         model = Goods
-        fields = [ 'name']
+        fields = ['pricemin', 'pricemax']

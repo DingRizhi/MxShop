@@ -6,10 +6,24 @@ from rest_framework import serializers
 from .models import Goods, GoodsCategory
 
 
-class GoodsCategorySerializer(serializers.ModelSerializer):
+class GoodsCategorySerializer3(serializers.ModelSerializer):
     class Meta:
         model = GoodsCategory
-        fields = ("name",)
+        fields = "__all__"
+
+
+class GoodsCategorySerializer2(serializers.ModelSerializer):
+    sub_cat = GoodsCategorySerializer3(many=True)
+    class Meta:
+        model = GoodsCategory
+        fields = "__all__"
+
+
+class GoodsCategorySerializer(serializers.ModelSerializer):
+    sub_cat = GoodsCategorySerializer2(many=True)
+    class Meta:
+        model = GoodsCategory
+        fields = "__all__"
 
 
 class GoodsSerializer(serializers.ModelSerializer):
