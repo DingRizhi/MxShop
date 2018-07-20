@@ -51,7 +51,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'django_filters',
     'corsheaders', # 解决跨域问题
-
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +72,7 @@ CORS_ORIGIN_WHITELIST = (
 )
 
 AUTHENTICATION_BACKENDS = (
+    'users.views.CumstomBackend',
     'django.contrib.auth.backends.ModelBackend', # default
     'guardian.backends.ObjectPermissionBackend',
 )
@@ -154,3 +155,25 @@ STATIC_URL = '/static/'
 # 配置上传下载图片路径
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework_jwt.authentication.JSONWebTokenAuthentication',
+    )
+}
+
+import datetime
+# jwt设置
+JWT_AUTH = {
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(days=7),# 过期时间
+    'JWT_AUTH_HEADER_PREFIX': 'JWT',                  # 前端token传送头部: Authorization: JWT <your_token>
+}
+
+# 手机号码正则表达式
+REGEX_MOBILE = "^1[358]\d{9}$|^147\d{8}$|^176\d{8}$"
+
+# 云片网API key
+APIKEY = "a3021b98ecf4b2456502a1acb14a0d5d"

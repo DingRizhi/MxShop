@@ -21,8 +21,10 @@ from MxShop.settings import MEDIA_ROOT
 from django.views.static import serve
 from django.urls import include
 from rest_framework.documentation import include_docs_urls
-
+from rest_framework.authtoken import views
 from goods.views import GoodsListViewSet, GoodsCategoryViewSet
+from users.views import SmsCodeViewSet
+from rest_framework_jwt.views import obtain_jwt_token
 
 from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
@@ -32,6 +34,9 @@ router.register('goods', GoodsListViewSet, base_name="goods")
 
 # 配置category的url
 router.register('categorys', GoodsCategoryViewSet, base_name="categorys")
+
+# 配置verify code的url
+router.register('codes', SmsCodeViewSet, base_name="codes")
 
 
 
@@ -44,4 +49,8 @@ urlpatterns = [
     path('ueditor/', include('DjangoUeditor.urls')),
     path('api-auth/', include('rest_framework.urls')),
     path('docs/', include_docs_urls(title="慕雪生鲜")),
+    # rest 自带token
+    path('api-token-auth/', views.obtain_auth_token),
+    # jwt token验证
+    path('login/', obtain_jwt_token),
 ]
