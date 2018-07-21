@@ -7,7 +7,7 @@ from rest_framework.response import Response
 from rest_framework import status
 
 from .models import VerifyCode
-from .serializers import SmsSerializer
+from .serializers import SmsSerializer, UserRegSerializer
 from MxShop.settings import APIKEY
 from utils.yunpian import YunPian
 # Create your views here.
@@ -34,7 +34,8 @@ class SmsCodeViewSet(CreateModelMixin, viewsets.GenericViewSet):
     """
     serializer_class = SmsSerializer
 
-    def generate_code(self):
+    @staticmethod
+    def generate_code():
         """
         生成四位随机验证码
         """
@@ -70,3 +71,11 @@ class SmsCodeViewSet(CreateModelMixin, viewsets.GenericViewSet):
                 },
                 status = status.HTTP_400_BAD_REQUEST
             )
+
+
+class UserViewSet(CreateModelMixin, viewsets.GenericViewSet):
+    """
+    用户
+    """
+    serializer_class = UserRegSerializer
+    queryset = User.objects.all()

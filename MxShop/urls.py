@@ -23,7 +23,7 @@ from django.urls import include
 from rest_framework.documentation import include_docs_urls
 from rest_framework.authtoken import views
 from goods.views import GoodsListViewSet, GoodsCategoryViewSet
-from users.views import SmsCodeViewSet
+from users.views import SmsCodeViewSet, UserViewSet
 from rest_framework_jwt.views import obtain_jwt_token
 
 from rest_framework.routers import DefaultRouter
@@ -37,6 +37,9 @@ router.register('categorys', GoodsCategoryViewSet, base_name="categorys")
 
 # 配置verify code的url
 router.register('codes', SmsCodeViewSet, base_name="codes")
+
+# 配置verify code的url
+router.register('users', UserViewSet, base_name="users")
 
 
 
