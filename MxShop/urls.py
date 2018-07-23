@@ -24,6 +24,7 @@ from rest_framework.documentation import include_docs_urls
 from rest_framework.authtoken import views
 from goods.views import GoodsListViewSet, GoodsCategoryViewSet
 from users.views import SmsCodeViewSet, UserViewSet
+from user_operation.views import UserFavViewSet
 from rest_framework_jwt.views import obtain_jwt_token
 
 from rest_framework.routers import DefaultRouter
@@ -40,6 +41,9 @@ router.register('code', SmsCodeViewSet, base_name="code")
 
 # 配置注册users 的url
 router.register('users', UserViewSet, base_name="users")
+
+# 配置注册user fav 的url
+router.register('userfavs', UserFavViewSet, base_name="userfavs")
 
 
 urlpatterns = [

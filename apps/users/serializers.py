@@ -70,7 +70,7 @@ class UserRegSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         """
         原来的create没有将密码加密,在这里重载create 将密码加密
-        只在post的时候生效
+        只在post的时候生效, 由于用信号量有点问题,所以用这个方法
         """
         user = super(UserRegSerializer, self).create(validated_data=validated_data)
         user.set_password(validated_data['password'])

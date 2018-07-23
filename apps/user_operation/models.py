@@ -22,10 +22,11 @@ class UserFav(models.Model):
     class Meta:
         verbose_name = '用户收藏'
         verbose_name_plural = verbose_name
-        #unique_together = ("user", "goods")
+        # 添加数据时候这两个不能都相同, 也就是一个人不能同时收藏一种物品两次!
+        unique_together = ("user", "goods")
 
     def __str__(self):
-        return self.user.name
+        return self.user.username
 
 
 class UserLeavingMessage(models.Model):
