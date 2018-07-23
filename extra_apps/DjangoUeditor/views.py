@@ -210,10 +210,13 @@ def UploadFile(request):
             # 保存到文件中，如果保存错误，需要返回ERROR
             state = save_upload_file(file, os.path.join(OutputPath, OutputFile))
 
+    mediaUrl = urljoin(USettings.gSettings.MEDIA_URL, OutputPathFormat)
+    absUrl1 = request.build_absolute_uri(mediaUrl)
     # 返回数据
     return_info = {
         # 保存后的文件名称
-        'url': urljoin(USettings.gSettings.MEDIA_URL, OutputPathFormat),
+        #'url': urljoin(USettings.gSettings.MEDIA_URL, OutputPathFormat),
+        'url': absUrl1,
         # 原始文件名
         'original': upload_file_name,
         'type': upload_original_ext,

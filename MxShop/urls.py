@@ -36,11 +36,10 @@ router.register('goods', GoodsListViewSet, base_name="goods")
 router.register('categorys', GoodsCategoryViewSet, base_name="categorys")
 
 # 配置verify code的url
-router.register('codes', SmsCodeViewSet, base_name="codes")
+router.register('code', SmsCodeViewSet, base_name="code")
 
-# 配置verify code的url
+# 配置注册users 的url
 router.register('users', UserViewSet, base_name="users")
-
 
 
 urlpatterns = [

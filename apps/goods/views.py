@@ -12,20 +12,23 @@ from .serializers import GoodsSerializer, GoodsCategorySerializer
 
 
 class GoodsPagination(PageNumberPagination):
-    page_size = 12
-    page_size_query_param = 'page_size'
-    page_query_param = 'page'
-    max_page_size = 100
+    """
+    自定义分页参数
+    """
+    page_size = 12                         # 每页的数据量
+    page_size_query_param = 'page_size'  # ?page_size= 浏览器自己控制每页的数据量
+    page_query_param = 'page'            #  ?page= 浏览器访问参数写法
+    max_page_size = 100                  #   最大页数限制
 
 
-class GoodsListViewSet(mixins.ListModelMixin ,viewsets.GenericViewSet):
+class GoodsListViewSet(mixins.ListModelMixin, mixins.RetrieveModelMixin, viewsets.GenericViewSet):
     """
     商品分页,过滤,搜索,排序
     """
     queryset = Goods.objects.all()
     serializer_class = GoodsSerializer
     pagination_class = GoodsPagination
-    #authentication_classes = (TokenAuthentication, )
+    # authentication_classes = (TokenAuthentication, )
     filter_backends = (DjangoFilterBackend, SearchFilter, OrderingFilter)
     filter_class = GoodsFilter
     search_fields = ('name', 'goods_brief', 'goods_desc')
